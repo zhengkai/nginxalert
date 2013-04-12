@@ -1,0 +1,2 @@
+log_path='/www/log/royal.access.log'
+pid_path='/var/run/nginx.pid'
