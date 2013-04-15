@@ -9,7 +9,7 @@ DBz::$_lTypeNeedConvert = [
 		return "strtotime";
 	},
 	function ($aMeta) {
-		$lType = ["LONG", "LONGLONG"];
+		$lType = ["LONG", "LONGLONG", 'SHORT', 'NEWDECIMAL'];
 		if (!in_array($aMeta["native_type"], $lType)) {
 			return FALSE;
 		}
