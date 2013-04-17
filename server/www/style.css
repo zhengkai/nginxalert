@@ -1,0 +1,204 @@
+* {
+	font-size: 16px;
+	font-family: monospace;
+}
+
+body {
+	margin: 10px 10px;
+}
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+h2 {
+	font-size: 24px;
+	padding: 8px 30px;
+	background-color: #def;
+	margin: 10px -10px;
+}
+
+pre, code, .mono {
+	font-family: monospace;
+}
+
+a, button {
+	outline: none;
+}
+
+a {
+	color: blue;
+	text-decoration: none;
+}
+
+a:hover {
+	color: red;
+	text-decoration: underline;
+}
+
+th, td, p, div {
+	cursor: default;
+}
+
+button, label, input[type=checkbox] {
+	cursor: pointer;
+}
+
+table {
+	border-collapse:collapse;
+}
+
+table.list {
+	width: auto;
+}
+
+table.list td, table.list input, table.list textarea {
+	font-size: 14px;
+}
+
+table.list td {
+	border: 1px solid silver;
+	padding: 6px 10px;
+	vertical-align: text-top;
+}
+
+table.list tr:nth-of-type(even) {
+	background-color: #eee;
+}
+
+table.list tr td:first-of-type {
+	border-left-width: 0;
+}
+
+table.list tr td:last-of-type {
+	border-right-width: 0;
+}
+
+table.list input[type=text]:focus,
+table.list textarea:focus {
+	background-color: #def;
+}
+
+table.list tr.empty {
+	background-color: #fdd !important;
+}
+
+table.list tr.new {
+	background-color: #8f8;
+}
+
+table.list td.checkbox {
+	width: 60px;
+	text-align: center;
+	padding: 0;
+}
+
+table.list td.checkbox label {
+	display: block;
+	padding: 5px 0;
+}
+
+table.list td.checkbox input[type=checkbox] {
+	outline: none;
+	vertical-align: -2px;
+}
+
+table.list_2 {
+	width: 100%;
+}
+
+table.list_2 td {
+	padding: 10px;
+	border: 1px solid silver;
+}
+
+p.nav {
+	overflow: auto;
+}
+
+p.nav a {
+	color: green;
+	background-color: #efe;
+	border: 2px solid green;
+	padding: 0 10px;
+	display: block;
+	float: left;
+	margin: 0 0 0 10px;
+	font-size: 24px;
+	text-decoration: none;
+}
+
+p.nav a:hover {
+	background-color: #afa;
+}
+
+p.nav a.select {
+	border: 2px solid #000080;
+	background-color: #eef;
+	color: #000080;
+}
+
+button.submit {
+	position: fixed;
+	top: 30px;
+	right: 20px;
+	font-size: 24px;
+	background-image: url('/document-save.png');
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	padding: 5px 15px 5px 50px;
+}
+
+div.notice {
+	display: none;
+	position: fixed;
+	top: 40px;
+	margin: 0 auto;
+	right: 200px;
+	font-size: 24px;
+	padding: 10px 20px;
+	border: 2px solid #008B8B;
+	background-color: #00FFFF;
+}
+
+div.warning {
+	display: none;
+	overflow: visible;
+	width: 300px;
+	white-space: nowrap;
+	font-size: 16px;
+	padding: 10px 20px;
+	border: 2px solid #F66;
+	background-color: #Fcc;
+}
+
+table.list th {
+	border: 1px solid silver;
+	padding: 4px 10px;
+	text-align: center;
+	font-weight: bold;
+	background-color: #fed;
+}
+
+table.num td {
+	text-align: right;
+}
+
+table.nginxalert td {
+	text-align: right;
+	font-size: 16px;
+	min-width: 80px;
+}
+table.nginxalert td:nth-child(1) {
+	text-align: center;
+	font-weight: bold;
+}
+
+table.nginxalert td:nth-child(4),
+table.nginxalert td:nth-child(5),
+table.nginxalert td:nth-child(6),
+table.nginxalert td:nth-child(7),
+table.nginxalert td:nth-child(8),
+table.nginxalert td:nth-child(9) {
+}

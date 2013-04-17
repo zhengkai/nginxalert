@@ -1,5 +1,12 @@
 <?php
-function getData($sQueryWhere) {
+function getData($iTime, $iOffset) {
+
+	if ($iOffset < 1) {
+		$iOffset = 1;
+	}
+	$iOffset--;
+
+	$sQueryWhere = 'WHERE time_create BETWEEN '.$iTime.' AND '.($iTime + $iOffset);
 
 	$lValidKey = [
 		200,
@@ -11,9 +18,21 @@ function getData($sQueryWhere) {
 		'out',
 	];
 
-	$fnParse = function ($aRow) use ($lAvgKey) {
+	$fnParse = function ($aRow) use ($lAvgKey, $iOffset) {
 
 		$iNum = $aRow['num'];
+		$aRow += [
+			'max' => [],
+			'avg' => [],
+			'total' => [],
+		];
+
+		$aRow['req_pre_sec'] = sprintf('%.02f', $iNum / ($iOffset ?: 1));
+
+		foreach ($lAvgKey as $sKey) {
+			$aRow['max'][$sKey] = $aRow['max_'.$sKey];
+			unset($aRow['max_'.$sKey]);
+		}
 		foreach ($lAvgKey as $sKey) {
 			$aRow['avg'][$sKey] = $iNum ? round($aRow[$sKey] / $iNum) : 0;
 		}
@@ -30,7 +49,14 @@ function getData($sQueryWhere) {
 
 	$oDB = new DBz();
 
-	$sQuery = 'SELECT http_code, count(*) as num, SUM(time_cost) as time_cost, SUM(`in`) as `in`, SUM(`out`) as `out` '
+	$sQuery = 'SELECT http_code, '
+		.'count(*) as num, '
+		.'SUM(time_cost) as time_cost, '
+		.'SUM(`in`) as `in`, '
+		.'SUM(`out`) as `out`, '
+		.'MAX(time_cost) as max_time_cost, '
+		.'MAX(`in`) as `max_in`, '
+		.'MAX(`out`) as `max_out` '
 		.'FROM log '
 		.$sQueryWhere.' '
 		.'GROUP BY http_code';
@@ -45,6 +71,9 @@ function getData($sQueryWhere) {
 				'time_cost' => 0,
 				'in' => 0,
 				'out' => 0,
+				'max_time_cost' => 0,
+				'max_in' => 0,
+				'max_out' => 0,
 			],
 		];
 	}
@@ -57,19 +86,35 @@ function getData($sQueryWhere) {
 		}
 	}
 	unset($iTotal);
+	unset($aTotal['http_code']);
+
+	$lReturn['total'] = $fnParse($aTotal);
+
+	$iSUM = $aTotal['num'];
 
 	$lData = array_map($fnParse, $lData);
 
-	$lReturn['rate'] = $aTotal['num']
-		? sprintf('%.02f', ($lData[200]['num'] + $lData[304]['num']) / $aTotal['num'] * 100)
-		: '00.00';
+	$lData  = array_map(function ($aRow) use ($iSUM) {
+		$aRow['rate'] = sprintf('%.02f%%', $iSUM ? ($aRow['num'] / $iSUM * 100) : 0);
+		return $aRow;
+	}, $lData);
+
+	$lReturn['total']['rate'] = sprintf('%.02f%%', $iSUM ? (($lData[200]['num'] + $lData[304]['num']) / $iSUM * 100) : 0);
 
 	$lReturn['by_http_code'] = $lData;
 
-	$sQuery = 'SELECT uri, count(*) as num, SUM(time_cost) as time_cost, SUM(`in`) as `in`, SUM(`out`) as `out` '
+	$sQuery = 'SELECT uri, '
+		.'count(*) as num, '
+		.'SUM(time_cost) as time_cost, '
+		.'SUM(`in`) as `in`, '
+		.'SUM(`out`) as `out`, '
+		.'MAX(time_cost) as max_time_cost, '
+		.'MAX(`in`) as `max_in`, '
+		.'MAX(`out`) as `max_out` '
 		.'FROM log '
 		.$sQueryWhere.' AND http_code = 200 '
-		.'GROUP BY uri';
+		.'GROUP BY uri '
+		.'LIMIT 20';
 
 	$lData = $oDB->getAll($sQuery) ?: [];
 	$lData = array_map($fnParse, $lData);
