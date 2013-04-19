@@ -4,16 +4,18 @@ require_once __DIR__.'/common.inc.php';
 require_once __DIR__.'/dbz.inc.php';
 require_once __DIR__.'/fn_getdata.inc.php';
 
-$iNow = $_SERVER['REQUEST_TIME'];
-$iNow = 1366000622;
-
-$iNowHour = strtotime(date('Y-m-d H:00:00', $iNow));
-
 $oDB = new DBz();
+$sQuery = 'SELECT MAX(time_create) as last FROM log';
+$iLast = $oDB->getSingle($sQuery);
+if ($iLast < 1) {
+	die('db error, exit');
+}
 
-foreach (range(0, 20) as $iDiff) {
+$iLastHour = strtotime(date('Y-m-d H:00:00', $iLast));
 
-	$iTime = $iNowHour - 3600 * $iDiff;
+foreach (range(0, 30) as $iDiff) {
+
+	$iTime = $iLastHour - 3600 * $iDiff;
 
 	$iDate = date('Ymd', $iTime);
 	$iHour = date('G', $iTime);
@@ -27,6 +29,8 @@ foreach (range(0, 20) as $iDiff) {
 	}
 
 	$lData = getData($iTime, 3600);
+
+	$lData['timestamp'] = $iTime;
 
 	echo strlen(json($lData)), "\n";
 

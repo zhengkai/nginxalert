@@ -11,7 +11,7 @@ require_once dirname(__DIR__).'/tpl_table.inc.php';
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>trans</title>
+<title>HTTP Monitor</title>
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 <body>
