@@ -41,3 +41,6 @@ foreach (range(0, 30) as $iDiff) {
 
 	$oDB->exec($sQuery);
 }
+
+$sQuery = 'DELETE FROM history WHERE date < '.$iDate;
+$oDB->exec($sQuery);
