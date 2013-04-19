@@ -19,6 +19,11 @@ $oDB = new DBz();
 </head>
 <body>
 
+<p>
+<a href="index.php">overview</a> | history
+</p>
+<hr />
+
 <?php
 $sQuery = 'SELECT * FROM history ORDER BY date, hour LIMIT 744';
 $lHistory = $oDB->getAll($sQuery, FALSE) ?: [];

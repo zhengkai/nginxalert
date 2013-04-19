@@ -16,6 +16,11 @@ require_once dirname(__DIR__).'/tpl_table.inc.php';
 </head>
 <body>
 
+<p>
+overview | <a href="history.php">history</a>
+</p>
+<hr />
+
 <p>last record in <?php
 $oDB = new DBz();
 $sQuery = 'SELECT UNIX_TIMESTAMP() as now, MAX(time_create) as last FROM log';
